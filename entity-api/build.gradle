@@ -34,5 +34,4 @@ dependencies {
     compileOnly 'com.mojang:authlib:1.5.21'
     compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.5.0"
     api("org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT")
-    api("org.bukkit:craftbukkit:1.16.1-R0.1-SNAPSHOT")
 }
