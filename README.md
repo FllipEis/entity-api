@@ -2,7 +2,7 @@
 # entity-api
 Entity api for minecraft.
 
-**IMPORTANT: This api is only for spigot 1.16+**
+**IMPORTANT: This api is only for spigot 1.16+ and you need [ProtocolLib](https://www.spigotmc.org/resources/protocollib.1997/).**
 
 ### 🛠  Development
 
