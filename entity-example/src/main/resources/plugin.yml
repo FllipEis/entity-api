@@ -1,0 +1,5 @@
+name: EntityExample
+author: Fllip
+version: 1.0
+
+main: de.fllip.entity.plugin.EntityPlugin
