@@ -44,7 +44,6 @@ import de.fllip.entity.api.entity.pose.EntityPose
 import de.fllip.entity.api.entity.tracking.EntityTrackingRange
 import de.fllip.entity.api.entity.update.UpdateAction
 import de.fllip.entity.api.scheduler.later
-import net.minecraft.server.v1_16_R1.PacketPlayOutEntityStatus
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin

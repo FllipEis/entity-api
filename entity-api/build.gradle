@@ -32,6 +32,7 @@ dependencies {
     compileOnly "com.fasterxml.jackson.core:jackson-annotations:2.9.8"
     compileOnly "com.fasterxml.jackson.core:jackson-databind:2.9.8"
     compileOnly 'com.mojang:authlib:1.5.21'
+    compileOnly 'com.mojang:datafixerupper:1.0.20'
     compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.5.0"
     api("org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT")
 }
