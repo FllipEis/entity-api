@@ -2,6 +2,8 @@
 # entity-api
 Entity api for minecraft.
 
+**IMPORTANT: This api is only for spigot 1.16+**
+
 ### 🛠  Development
 
 **Initialization:**
