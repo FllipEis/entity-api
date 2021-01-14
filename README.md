@@ -10,7 +10,7 @@ To initialize the api you have to call the init method:
 
     EntityAPI.init(javaPlugin);
 
-**To create a fake player (NPC):**
+**Creating a fake player (NPC):**
 
         EntityAPI.getInstance().getCreator().createFakePlayer(new FakePlayerEntityConfiguration()
                 .withDisplayName("§aTest123")
