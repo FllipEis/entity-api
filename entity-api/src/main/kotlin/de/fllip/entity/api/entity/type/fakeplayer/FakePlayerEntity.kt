@@ -202,7 +202,7 @@ class FakePlayerEntity @Inject constructor(
 
         val wrappedGameProfile = WrappedGameProfile(uniqueId, displayName)
 
-        val skinData = configuration.skinData
+        val skinData = configuration.skinDataHandler?.invoke(player)
         if (skinData != null) {
             wrappedGameProfile.properties.put(
                 "textures",

@@ -26,6 +26,7 @@ package de.fllip.entity.api.configuration
 
 import de.fllip.entity.api.entity.type.fakeplayer.SkinData
 import org.bukkit.Material
+import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
 /**
@@ -36,10 +37,10 @@ import org.bukkit.inventory.ItemStack
  */
 class FakePlayerEntityConfiguration : AbstractEntityConfiguration<FakePlayerEntityConfiguration>() {
 
-    var skinData: SkinData? = null
     var lookAtPlayer = false
     var mainHandItem: ItemStack? = null
     var offHandItem: ItemStack? = null
+    var skinDataHandler: ((Player) -> SkinData)? = null
 
     fun withMainHandItem(mainHandItem: ItemStack): FakePlayerEntityConfiguration {
         this.mainHandItem = mainHandItem
@@ -67,7 +68,11 @@ class FakePlayerEntityConfiguration : AbstractEntityConfiguration<FakePlayerEnti
     }
 
     fun withSkinData(skinData: SkinData): FakePlayerEntityConfiguration {
-        this.skinData = skinData
+        return withSkinData { skinData }
+    }
+
+    fun withSkinData(skinDataHandler: ((Player) -> SkinData)): FakePlayerEntityConfiguration {
+        this.skinDataHandler = skinDataHandler
         return this
     }
 
