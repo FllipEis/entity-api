@@ -68,7 +68,7 @@ class EntityCreator @Inject constructor(
                 holograms.forEachIndexed { index, armorStandEntity ->
                     armorStandEntity.update(
                         EntityUpdateType.TELEPORT,
-                        location.clone().add(0.0, 0.275 * (index + 1), 0.0)
+                        location.clone().add(0.0, 0.275 * (index) + 0.1, 0.0)
                     )
                 }
             }
