@@ -61,24 +61,12 @@ class ArmorStandEntity @Inject constructor(
             .write(1, location!!.y)
             .write(2, location!!.z)
 
-        val metadataContainer = PacketContainer(PacketType.Play.Server.ENTITY_METADATA)
-        metadataContainer.modifier.writeDefaults()
-        metadataContainer.integers.write(0, entityId)
+        val metadataContainer = createMetadataContainer(player)
 
         val dataWatcher = WrappedDataWatcher(metadataContainer.watchableCollectionModifier.read(0))
 
         val isInvisibleIndex = WrappedDataWatcher.WrappedDataWatcherObject(0, getByteSerializer())
         dataWatcher.setObject(isInvisibleIndex, (if (configuration.visible) 0 else 0x20).toByte())
-
-        val nameValue =
-            WrappedDataWatcher.WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.getChatComponentSerializer(true))
-        val nameVisible = WrappedDataWatcher.WrappedDataWatcherObject(3, getSerializer("i"))
-        dataWatcher.setObject(
-            nameValue,
-            Optional.of(WrappedChatComponent.fromText(configuration.displayNameHandler.invoke(player)).handle)
-        )
-        dataWatcher.setObject(nameVisible, true)
-
         metadataContainer.watchableCollectionModifier.write(0, dataWatcher.watchableObjects)
 
         sendPackets(player, spawnContainer, metadataContainer)

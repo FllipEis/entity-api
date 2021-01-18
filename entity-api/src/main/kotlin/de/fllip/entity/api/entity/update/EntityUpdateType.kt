@@ -34,6 +34,6 @@ import de.fllip.entity.api.entity.update.IEntityUpdateType
  */
 enum class EntityUpdateType : IEntityUpdateType {
 
-    TELEPORT, ANIMATION
+    TELEPORT, ANIMATION, NAME
 
 }

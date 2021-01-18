@@ -198,7 +198,7 @@ class FakePlayerEntity @Inject constructor(
         val playerInfoContainer = createPacket(PacketType.Play.Server.PLAYER_INFO)
         playerInfoContainer.playerInfoAction.write(0, action)
 
-        val displayName = configuration.displayNameHandler.invoke(player)
+        val displayName = invokeDisplayName(player)
 
         val wrappedGameProfile = WrappedGameProfile(uniqueId, displayName)
 

@@ -29,10 +29,14 @@ import com.comphenix.protocol.ProtocolLibrary
 import com.comphenix.protocol.events.PacketContainer
 import com.comphenix.protocol.injector.netty.WirePacket
 import com.comphenix.protocol.utility.MinecraftReflection
+import com.comphenix.protocol.wrappers.WrappedChatComponent
+import com.comphenix.protocol.wrappers.WrappedDataWatcher
 import com.google.common.collect.Lists
 import de.fllip.entity.api.`class`.ClassHelper
 import de.fllip.entity.api.configuration.AbstractEntityConfiguration
 import de.fllip.entity.api.creator.EntityCreator
+import de.fllip.entity.api.datawatcher.getByteSerializer
+import de.fllip.entity.api.datawatcher.getSerializer
 import de.fllip.entity.api.entity.animation.EntityAnimationType
 import de.fllip.entity.api.entity.item.ItemInformation
 import de.fllip.entity.api.entity.update.IEntityUpdateType
@@ -78,7 +82,15 @@ abstract class AbstractEntity<T : AbstractEntityConfiguration<T>>(
         }
     }
 
-    fun <T> update(player: Player, updateType: IEntityUpdateType, data: T) {
+    fun update(updateType: IEntityUpdateType) {
+        update(updateType, null)
+    }
+
+    fun update(player: Player, updateType: IEntityUpdateType) {
+        update(player, updateType, null)
+    }
+
+    fun <T> update(player: Player, updateType: IEntityUpdateType, data: T?) {
         ClassHelper.getMethodsOfClasses(true, this::class.java, AbstractEntity::class.java)
             .filter {
                 it.isAnnotationPresent(UpdateAction::class.java)
@@ -86,7 +98,11 @@ abstract class AbstractEntity<T : AbstractEntityConfiguration<T>>(
             }
             .sortedBy { it.getAnnotation(UpdateAction::class.java).priority }
             .forEach {
-                it.invoke(this, player, data)
+                if (data != null) {
+                    it.invoke(this, player, data)
+                } else {
+                    it.invoke(this, player)
+                }
             }
     }
 
@@ -146,6 +162,21 @@ abstract class AbstractEntity<T : AbstractEntityConfiguration<T>>(
         }
     }
 
+    @UpdateAction("NAME", 0)
+    fun name(player: Player) {
+        sendPackets(player, createMetadataContainer(player))
+    }
+
+    protected fun invokeDisplayName(player: Player): String{
+        val displayName = configuration.displayNameHandler.invoke(player)
+
+        if (displayName.length > 16) {
+            return displayName.substring(0, 16)
+        }
+
+        return displayName
+    }
+
     protected fun sendEntityEquipmentPackets(player: Player, itemInformation: ItemInformation) {
         sendEntityEquipmentPackets(player, listOf(itemInformation))
     }
@@ -188,6 +219,26 @@ abstract class AbstractEntity<T : AbstractEntityConfiguration<T>>(
 
 
         return Pair(lookContainer, headRotationContainer)
+    }
+
+    protected fun createMetadataContainer(player: Player): PacketContainer {
+       val metadataContainer = createPacket(PacketType.Play.Server.ENTITY_METADATA, entityId)
+        metadataContainer.modifier.writeDefaults()
+
+        val dataWatcher = WrappedDataWatcher(metadataContainer.watchableCollectionModifier.read(0))
+
+        val nameValue =
+            WrappedDataWatcher.WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.getChatComponentSerializer(true))
+        val nameVisible = WrappedDataWatcher.WrappedDataWatcherObject(3, getSerializer("i"))
+        dataWatcher.setObject(
+            nameValue,
+            Optional.of(WrappedChatComponent.fromText(invokeDisplayName(player)).handle)
+        )
+        dataWatcher.setObject(nameVisible, true)
+
+        metadataContainer.watchableCollectionModifier.write(0, dataWatcher.watchableObjects)
+
+        return metadataContainer
     }
 
     protected fun createPacket(packetType: PacketType, entityId: Int? = null): PacketContainer {
