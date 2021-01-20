@@ -39,6 +39,7 @@ import de.fllip.entity.api.datawatcher.getByteSerializer
 import de.fllip.entity.api.datawatcher.getSerializer
 import de.fllip.entity.api.entity.animation.EntityAnimationType
 import de.fllip.entity.api.entity.item.ItemInformation
+import de.fllip.entity.api.entity.type.armorstand.ArmorStandEntity
 import de.fllip.entity.api.entity.update.IEntityUpdateType
 import de.fllip.entity.api.entity.update.UpdateAction
 import de.fllip.entity.api.player.hasOnlineTime
@@ -65,7 +66,8 @@ abstract class AbstractEntity<T : AbstractEntityConfiguration<T>>(
     var location: Location? = configuration.location
         protected set
 
-    val renderList = Lists.newArrayList<Player>()
+    val renderList = Lists.newArrayList<Player>()!!
+    val childs = Lists.newArrayList<AbstractEntity<*>>()!!
 
     fun render(player: Player) {
         val canSee = configuration.handleSpawn?.invoke(player) ?: true
@@ -165,6 +167,9 @@ abstract class AbstractEntity<T : AbstractEntityConfiguration<T>>(
     @UpdateAction("NAME", 0)
     fun name(player: Player) {
         sendPackets(player, createMetadataContainer(player))
+        childs.forEach {
+            it.name(player)
+        }
     }
 
     protected fun invokeDisplayName(player: Player): String{
@@ -270,6 +275,14 @@ abstract class AbstractEntity<T : AbstractEntityConfiguration<T>>(
         renderList.removeIf {
             it == null || !it.hasOnlineTime(3)
         }
+    }
+
+    fun <T: AbstractEntity<*>> addChilds(childs: List<T>) {
+        this.childs.addAll(childs)
+    }
+
+    fun <T: AbstractEntity<*>> addChild(child: T) {
+        childs.add(child)
     }
 
 }

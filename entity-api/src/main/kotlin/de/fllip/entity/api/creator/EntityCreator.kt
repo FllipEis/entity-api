@@ -73,6 +73,7 @@ class EntityCreator @Inject constructor(
                 }
             }
         }
+        entity.addChilds(holograms)
 
         return entity
     }

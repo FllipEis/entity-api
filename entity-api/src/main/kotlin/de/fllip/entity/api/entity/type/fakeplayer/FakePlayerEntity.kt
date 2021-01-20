@@ -25,14 +25,10 @@
 package de.fllip.entity.api.entity.type.fakeplayer
 
 import com.comphenix.protocol.PacketType
-import com.comphenix.protocol.ProtocolLibrary
 import com.comphenix.protocol.events.PacketContainer
-import com.comphenix.protocol.injector.netty.WirePacket
-import com.comphenix.protocol.utility.MinecraftReflection
 import com.comphenix.protocol.wrappers.*
 import com.google.common.collect.Lists
 import com.google.inject.Inject
-import com.mojang.datafixers.util.Pair
 import de.fllip.entity.api.configuration.FakePlayerEntityConfiguration
 import de.fllip.entity.api.creator.EntityCreator
 import de.fllip.entity.api.datawatcher.getByteSerializer
@@ -106,6 +102,7 @@ class FakePlayerEntity @Inject constructor(
             metaDataContainer
         )
 
+        sendPackets(player, playerInfoAddContainer)
         later(plugin, 4) {
             val playerInfoRemoveContainer =
                 createPlayerInfoContainer(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER)
@@ -192,6 +189,11 @@ class FakePlayerEntity @Inject constructor(
             .write(0, watchableObjects)
 
         sendPackets(player, metadataContainer)
+    }
+
+    @UpdateAction("NAME", 1)
+    fun fakePlayerName(player: Player) {
+        despawn(player)
     }
 
     private fun createPlayerInfoContainer(player: Player, action: EnumWrappers.PlayerInfoAction): PacketContainer {
