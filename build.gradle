@@ -42,7 +42,6 @@ allprojects {
 
     dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib"
-        compileOnly group: 'com.google.inject', name: 'guice', version: '4.1.0'
     }
 
     compileKotlin {

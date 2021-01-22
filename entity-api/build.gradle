@@ -22,6 +22,13 @@
  * SOFTWARE.
  */
 
+plugins {
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'java'
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
 repositories {
     maven { url "https://libraries.minecraft.net/" }
     maven { url "https://repo.dmulloy2.net/nexus/repository/public/" }
@@ -31,8 +38,22 @@ dependencies {
     compileOnly "com.fasterxml.jackson.core:jackson-core:2.9.8"
     compileOnly "com.fasterxml.jackson.core:jackson-annotations:2.9.8"
     compileOnly "com.fasterxml.jackson.core:jackson-databind:2.9.8"
-    compileOnly 'com.mojang:authlib:1.5.21'
-    compileOnly 'com.mojang:datafixerupper:1.0.20'
-    compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.5.0"
+    compileOnly group: 'com.google.inject', name: 'guice', version: '4.1.0'
+    api 'com.mojang:authlib:1.5.21'
+    api 'com.mojang:datafixerupper:1.0.20'
+    api group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.5.0"
     api("org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT")
+}
+
+jar {
+    enabled = false
+    dependsOn shadowJar
+}
+
+shadowJar {
+    archiveClassifier.set(null)
+    configurations = [project.configurations.compileOnly]
+
+    relocate 'com.google.inject', 'de.fllip.inject'
+    relocate 'com.fasterxml.jackson.core', 'de.fllip.jackson.core'
 }
