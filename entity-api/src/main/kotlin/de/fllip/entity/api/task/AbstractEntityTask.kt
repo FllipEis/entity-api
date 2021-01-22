@@ -54,7 +54,7 @@ abstract class AbstractEntityTask(
                 entity.removeOfflineRenders()
 
                 onlinePlayers
-                    .filter { it.hasOnlineTime(3) }
+                    .filter { it.hasOnlineTime(1) }
                     .forEach {
                         val inRange = EntityTrackingRange.inRange(it.location, entity.location!!, 50.0)
 

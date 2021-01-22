@@ -273,7 +273,7 @@ abstract class AbstractEntity<T : AbstractEntityConfiguration<T>>(
 
     fun removeOfflineRenders() {
         renderList.removeIf {
-            it == null || !it.hasOnlineTime(3)
+            it == null || !it.hasOnlineTime(1)
         }
     }
 
