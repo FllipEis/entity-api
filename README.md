@@ -15,7 +15,9 @@ Entity api for minecraft.
 	}
 
     dependencies {  
-	  compile('com.github.FllipEis.entity-api:entity-api:VERSION')  
+	  compile('com.github.FllipEis.entity-api:entity-api:VERSION') {
+	    transitive(false)
+	  } 
 	}
 
 **Maven:**
