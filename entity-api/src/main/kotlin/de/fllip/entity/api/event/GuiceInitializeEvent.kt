@@ -10,7 +10,7 @@ import org.bukkit.event.HandlerList
  * Date: 21.04.2021
  * Time: 20:24
  *
- * An event, which can at an list of [Entity.Factory]
+ * An event which can at an list of [Entity.Factory]
  */
 class GuiceInitializeEvent(
     val factoryInformationList: MutableList<FactoryInformation<*>>

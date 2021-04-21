@@ -11,6 +11,10 @@ import de.fllip.entity.api.entity.Entity
  * Time: 20:27
  *
  * Class for storing information to create a new factory
+ *
+ * @param factoryClass the class of the factory
+ * @param entityInterfaceClass the interface class of the entity
+ * @param entityClass the implementation class of the entity
  */
 data class FactoryInformation <T: Entity> (
     val factoryClass: Class<out Entity.Factory>,

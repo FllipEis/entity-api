@@ -1,6 +1,7 @@
 package de.fllip.entity.plugin
 
 import com.google.inject.Guice
+import de.fllip.entity.api.EntityAPI
 import de.fllip.entity.api.entity.Entity
 import de.fllip.entity.api.entity.fakeplayer.FakePlayerEntity
 import de.fllip.entity.api.event.FactoryInformation
@@ -40,7 +41,6 @@ class EntityPlugin : JavaPlugin() {
     }
 
     override fun onEnable() {
-
         val guiceInitializeEvent = GuiceInitializeEvent(DEFAULT_FACTORY_INFORMATION_LIST)
         Bukkit.getPluginManager().callEvent(guiceInitializeEvent)
 
