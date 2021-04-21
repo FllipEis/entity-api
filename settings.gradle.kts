@@ -1,1 +1,1 @@
-rootProject.name = "entity-api"
+rootProject.name = "entity"
