@@ -28,7 +28,7 @@ subprojects {
 
     dependencies {
         implementation(kotlin("stdlib"))
-        api("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
+        compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
         implementation("com.google.inject:guice:5.0.1")
         implementation("com.google.inject.extensions:guice-assistedinject:5.0.1")
         testImplementation("junit", "junit", "4.12")
