@@ -22,7 +22,7 @@ class EntityRenderer @Inject constructor(
     private val plugin: EntityPlugin
 ) {
 
-    val entities = Lists.newArrayList<Entity>()
+    private val entities = Lists.newArrayList<Entity>()!!
     private val renderList = Lists.newArrayList<PlayerRenderInformation>()
 
     fun addEntity(entity: Entity) {
@@ -31,6 +31,10 @@ class EntityRenderer @Inject constructor(
 
     fun removeEntity(uniqueId: UUID) {
         entities.removeIf { it.getUniqueId() == uniqueId }
+    }
+
+    fun getEntityById(entityId: Int): Entity? {
+        return entities.firstOrNull { it.getEntityId() == entityId }
     }
 
     fun removePlayerFromRenderList(entity: Entity, player: Player) {

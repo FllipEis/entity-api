@@ -1,13 +1,25 @@
 package de.fllip.entity.plugin
 
+import com.comphenix.protocol.PacketType
+import com.comphenix.protocol.ProtocolLibrary
+import com.comphenix.protocol.events.PacketAdapter
+import com.comphenix.protocol.events.PacketEvent
 import com.google.inject.Guice
+import de.fllip.entity.api.EntityAPI
 import de.fllip.entity.api.entity.fakeplayer.FakePlayerEntity
+import de.fllip.entity.api.entity.fakeplayer.FakePlayerEntityConfiguration
+import de.fllip.entity.api.entity.fakeplayer.SkinData
+import de.fllip.entity.api.entity.item.EquipmentItemSlot
+import de.fllip.entity.api.entity.result.EntityInteractAction
+import de.fllip.entity.api.entity.result.EntityInteractResult
 import de.fllip.entity.api.event.FactoryInformation
 import de.fllip.entity.api.event.GuiceInitializeEvent
 import de.fllip.entity.plugin.entity.fakeplayer.DefaultFakePlayerEntity
 import de.fllip.entity.plugin.module.EntityPluginModule
 import de.fllip.entity.plugin.renderer.EntityRenderer
 import org.bukkit.Bukkit
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.plugin.java.annotation.dependency.Dependency
 import org.bukkit.plugin.java.annotation.dependency.DependsOn
@@ -54,6 +66,23 @@ class EntityPlugin : JavaPlugin() {
         Bukkit.getScheduler().runTaskTimer(this, Runnable {
             entityRenderer?.render()
         }, 1, 1)
+
+        ProtocolLibrary.getProtocolManager()
+            .addPacketListener(object : PacketAdapter(this, PacketType.Play.Client.USE_ENTITY) {
+
+                override fun onPacketReceiving(event: PacketEvent) {
+                    val container = event.packet
+                    val entityId = container.integers.read(0)
+
+                    val entity = entityRenderer.getEntityById(entityId) ?: return
+                    val action = container.entityUseActions.read(0)
+
+                    entity.getEntityConfiguration().getInteractHandler().accept(
+                        EntityInteractResult(event.player, entity, EntityInteractAction.valueOf(action.toString()))
+                    )
+                }
+
+            })
 
     }
 
