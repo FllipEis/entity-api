@@ -1,8 +1,11 @@
 package de.fllip.entity.api.entity
 
+import de.fllip.entity.api.entity.item.EquipmentItem
+import de.fllip.entity.api.entity.item.EquipmentItemSlot
 import de.fllip.entity.api.entity.result.EntityInteractResult
 import org.bukkit.Location
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import java.util.function.Consumer
 
 /**
@@ -21,7 +24,7 @@ interface EntityConfigurationAdapter {
      * @param name the name to set
      * @return this instance of the configuration
      */
-    fun withDisplayName(name: String): EntityConfigurationAdapter = withDisplayName { name }
+    fun withDisplayName(name: String): EntityConfigurationAdapter
 
     /**
      * Sets the display name of the entity
@@ -45,7 +48,7 @@ interface EntityConfigurationAdapter {
      * @param line the line to set
      * @return this instance of the configuration
      */
-    fun withHologramLine(line: String): EntityConfigurationAdapter = withHologramLine { line }
+    fun withHologramLine(line: String): EntityConfigurationAdapter
 
     /**
      * Sets a holgram line on top of the entity
@@ -79,5 +82,62 @@ interface EntityConfigurationAdapter {
      * @return this instance of the configuration
      */
     fun withInteractHandler(interactHandler: Consumer<EntityInteractResult>): EntityConfigurationAdapter
+
+    /**
+     * Equips the fake player
+     *
+     * @param itemSlot the slot of the item
+     * @param itemStack the item to set
+     * @return this instance of the configuration
+     */
+    fun withEquipmentItem(itemSlot: EquipmentItemSlot, itemStack: ItemStack): EntityConfigurationAdapter
+
+
+    /**
+     * Equips the fake player
+     *
+     * @param equipmentItem the equipment item to set
+     * @return this instance of the configuration
+     */
+    fun withEquipmentItem(equipmentItem: EquipmentItem): EntityConfigurationAdapter
+
+
+    /**
+     * Equips the fake player
+     *
+     * @param equipmentItems the equipment items to set
+     * @return this instance of the configuration
+     */
+    fun withEquipmentItems(vararg equipmentItems: EquipmentItem): EntityConfigurationAdapter
+
+    /**
+     * @return the configured display name handler
+     */
+    fun getDisplayNameHandler(): (Player) -> String
+
+    /**
+     * @return the configured hologram lines
+     */
+    fun getHologramLinesHandler(): List<(Player) -> String>
+
+    /**
+     * @return the configured location
+     */
+    fun getLocation(): Location?
+
+    /**
+     * @return the configured spawn handler
+     */
+    fun getSpawnHandler(): (Player) -> Boolean
+
+    /**
+     * @return the configured interact handler
+     */
+    fun getInteractHandler(): Consumer<EntityInteractResult>
+
+    /**
+     * @return the items to equip the fake player
+     */
+    fun getEquipmentItems(): List<EquipmentItem>
 
 }

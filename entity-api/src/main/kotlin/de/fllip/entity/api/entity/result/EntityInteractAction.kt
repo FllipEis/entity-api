@@ -12,10 +12,4 @@ enum class EntityInteractAction {
     ATTACK,
     INTERACT_AT;
 
-    /*companion object {
-        fun fromEntityUseAction(action: EnumWrappers.EntityUseAction): EntityInteractAction {
-            return valueOf(action.toString())
-        }
-    }*/
-
 }

@@ -5,7 +5,10 @@ import com.google.inject.Module
 import com.google.inject.assistedinject.FactoryModuleBuilder
 import de.fllip.entity.api.EntityAPI
 import de.fllip.entity.api.entity.Entity
+import de.fllip.entity.api.entity.fakeplayer.FakePlayerEntity
 import de.fllip.entity.api.event.FactoryInformation
+import de.fllip.entity.plugin.EntityPlugin
+import de.fllip.entity.plugin.entity.fakeplayer.DefaultFakePlayerEntity
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,14 +17,20 @@ import de.fllip.entity.api.event.FactoryInformation
  * Time: 20:33
  */
 class EntityPluginModule(
+    private val plugin: EntityPlugin,
     private val factoryInformationList: List<FactoryInformation<*>>
 ) : AbstractModule() {
 
     override fun configure() {
         requestStaticInjection(EntityAPI::class.java)
+        bind(EntityPlugin::class.java).toInstance(plugin)
 
-        factoryInformationList.forEach {
-            install(it.buildModule())
+        try {
+            factoryInformationList.forEach {
+                install(it.buildModule())
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
     }
 
