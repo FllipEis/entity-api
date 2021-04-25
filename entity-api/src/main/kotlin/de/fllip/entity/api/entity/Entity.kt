@@ -1,11 +1,9 @@
 package de.fllip.entity.api.entity
 
-import com.google.inject.assistedinject.Assisted
-import com.google.inject.assistedinject.AssistedInject
+import de.fllip.entity.api.entity.configuration.EntityConfigurationAdapter
 import de.fllip.entity.api.entity.item.EquipmentItem
 import org.bukkit.entity.Player
 import java.util.*
-import java.util.concurrent.ThreadLocalRandom
 
 /**
  * Created by IntelliJ IDEA.
@@ -68,6 +66,25 @@ interface Entity {
      * @param isRendered if this entity is already rendered
      */
     fun onTick(player: Player, inRangeWithRange: Pair<Boolean, Double>, isRendered: Boolean) {}
+
+    /**
+     * Adds a child enttiy to this entity
+     *
+     * @param entity the entity to add
+     */
+    fun addChild(entity: Entity)
+
+    /**
+     * Removes a child enttiy from this entity
+     *
+     * @param uniqueId the entity uuid to remove
+     */
+    fun removeChild(uniqueId: UUID)
+
+    /**
+     * @return all child entities of this entity
+     */
+    fun getChilds(): List<Entity>
 
     /**
      * Adds this entity to the render list that it should be rendered for players

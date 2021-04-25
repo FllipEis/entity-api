@@ -1,16 +1,15 @@
 package de.fllip.entity.api.entity.fakeplayer
 
-import de.fllip.entity.api.entity.EntityConfigurationAdapter
-import de.fllip.entity.api.entity.item.EquipmentItem
-import de.fllip.entity.api.entity.item.EquipmentItemSlot
+import de.fllip.entity.api.entity.configuration.EntityConfigurationAdapter
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 
 /**
  * Created by IntelliJ IDEA.
  * User: Philipp.Eistrach
  * Date: 21.04.2021
  * Time: 19:19
+ *
+ * Configuration class for fake player entities
  */
 interface FakePlayerEntityConfigurationAdapter : EntityConfigurationAdapter {
 

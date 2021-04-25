@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package de.fllip.entity.plugin.entity
+package de.fllip.entity.plugin.entity.packet
 
 import com.comphenix.protocol.utility.MinecraftReflection
 import com.comphenix.protocol.wrappers.WrappedDataWatcher

@@ -1,4 +1,4 @@
-package de.fllip.entity.api.entity
+package de.fllip.entity.api.entity.configuration
 
 import de.fllip.entity.api.entity.item.EquipmentItem
 import de.fllip.entity.api.entity.item.EquipmentItemSlot

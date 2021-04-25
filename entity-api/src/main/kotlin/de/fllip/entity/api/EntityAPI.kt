@@ -3,6 +3,7 @@ package de.fllip.entity.api
 import com.google.inject.Inject
 import com.google.inject.Injector
 import de.fllip.entity.api.entity.Entity
+import de.fllip.entity.api.entity.armorstand.ArmorStandEntity
 import de.fllip.entity.api.entity.fakeplayer.FakePlayerEntity
 
 /**
@@ -15,6 +16,7 @@ import de.fllip.entity.api.entity.fakeplayer.FakePlayerEntity
  */
 class EntityAPI @Inject constructor(
     val fakePlayerEntityFactory: FakePlayerEntity.Factory,
+    val armorStandEntityFactory: ArmorStandEntity.Factory,
     private val injector: Injector
 ) {
 

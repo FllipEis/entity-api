@@ -2,8 +2,9 @@ package de.fllip.entity.plugin.entity.packet
 
 import com.comphenix.protocol.ProtocolLibrary
 import com.comphenix.protocol.events.PacketContainer
+import de.fllip.entity.api.entity.AbstractEntity
 import de.fllip.entity.api.entity.Entity
-import de.fllip.entity.plugin.renderer.EntityRenderer
+import de.fllip.entity.plugin.renderer.DefaultEntityRenderer
 import org.bukkit.entity.Player
 
 /**
@@ -13,8 +14,8 @@ import org.bukkit.entity.Player
  * Time: 20:31
  */
 abstract class AbstractEntityPacketSender(
-    private val entityRenderer: EntityRenderer
-): Entity {
+    private val entityRenderer: DefaultEntityRenderer
+): AbstractEntity(entityRenderer) {
 
     protected fun sendPacket(packetContainer: PacketContainer) {
         sendPackets(packetContainer)

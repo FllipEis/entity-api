@@ -47,14 +47,4 @@ class PlayerInfoPacketCreator: AbstractEntityPacketCreator() {
         }
     }
 
-    private fun invokeDisplayName(configurationAdapter: FakePlayerEntityConfigurationAdapter, player: Player): String{
-        val displayName = configurationAdapter.getDisplayNameHandler().invoke(player)
-
-        if (displayName.length > 16) {
-            return displayName.substring(0, 16)
-        }
-
-        return displayName
-    }
-
 }

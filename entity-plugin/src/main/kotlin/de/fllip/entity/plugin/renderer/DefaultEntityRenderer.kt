@@ -4,6 +4,7 @@ import com.google.common.collect.Lists
 import com.google.inject.Inject
 import com.google.inject.Singleton
 import de.fllip.entity.api.entity.Entity
+import de.fllip.entity.api.entity.EntityRenderer
 import de.fllip.entity.plugin.EntityPlugin
 import de.fllip.entity.plugin.later
 import org.bukkit.Bukkit
@@ -18,19 +19,23 @@ import java.util.*
  * Time: 10:56
  */
 @Singleton
-class EntityRenderer @Inject constructor(
+class DefaultEntityRenderer @Inject constructor(
     private val plugin: EntityPlugin
-) {
+): EntityRenderer {
 
-    private val entities = Lists.newArrayList<Entity>()!!
+    val entities = Lists.newArrayList<Entity>()!!
     private val renderList = Lists.newArrayList<PlayerRenderInformation>()
 
-    fun addEntity(entity: Entity) {
+    override fun addEntity(entity: Entity) {
         entities.add(entity)
     }
 
-    fun removeEntity(uniqueId: UUID) {
+    override fun removeEntity(uniqueId: UUID) {
         entities.removeIf { it.getUniqueId() == uniqueId }
+    }
+
+    override fun getRenderList(): List<Entity> {
+        return entities
     }
 
     fun getEntityById(entityId: Int): Entity? {

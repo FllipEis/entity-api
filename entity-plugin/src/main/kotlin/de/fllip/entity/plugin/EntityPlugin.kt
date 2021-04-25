@@ -4,27 +4,40 @@ import com.comphenix.protocol.PacketType
 import com.comphenix.protocol.ProtocolLibrary
 import com.comphenix.protocol.events.PacketAdapter
 import com.comphenix.protocol.events.PacketEvent
+import com.comphenix.protocol.utility.MinecraftReflection
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import com.google.inject.Guice
 import de.fllip.entity.api.EntityAPI
+import de.fllip.entity.api.entity.armorstand.ArmorStandEntity
+import de.fllip.entity.api.entity.fakeplayer.EntityPose
 import de.fllip.entity.api.entity.fakeplayer.FakePlayerEntity
 import de.fllip.entity.api.entity.fakeplayer.FakePlayerEntityConfiguration
 import de.fllip.entity.api.entity.fakeplayer.SkinData
-import de.fllip.entity.api.entity.item.EquipmentItemSlot
 import de.fllip.entity.api.entity.result.EntityInteractAction
 import de.fllip.entity.api.entity.result.EntityInteractResult
 import de.fllip.entity.api.event.FactoryInformation
 import de.fllip.entity.api.event.GuiceInitializeEvent
+import de.fllip.entity.plugin.entity.armorstand.DefaultArmorStandEntity
 import de.fllip.entity.plugin.entity.fakeplayer.DefaultFakePlayerEntity
 import de.fllip.entity.plugin.module.EntityPluginModule
-import de.fllip.entity.plugin.renderer.EntityRenderer
+import de.fllip.entity.plugin.renderer.DefaultEntityRenderer
+import labymod.LabyModProtocol
 import org.bukkit.Bukkit
-import org.bukkit.Material
-import org.bukkit.inventory.ItemStack
+import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.player.AsyncPlayerChatEvent
+import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.event.player.PlayerRiptideEvent
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.plugin.java.annotation.dependency.Dependency
 import org.bukkit.plugin.java.annotation.dependency.DependsOn
 import org.bukkit.plugin.java.annotation.plugin.ApiVersion
 import org.bukkit.plugin.java.annotation.plugin.Plugin
+import java.util.*
+import java.util.regex.Pattern
 
 
 /**
@@ -48,11 +61,11 @@ class EntityPlugin : JavaPlugin() {
                 FakePlayerEntity::class.java,
                 DefaultFakePlayerEntity::class.java
             ),
-            /*FactoryInformation(
-                Entity.Factory::class.java,
-                Entity::class.java,
-                DefaultEntity::class.java
-            )*/
+            FactoryInformation(
+                ArmorStandEntity.Factory::class.java,
+                ArmorStandEntity::class.java,
+                DefaultArmorStandEntity::class.java
+            )
         )
     }
 
@@ -61,7 +74,7 @@ class EntityPlugin : JavaPlugin() {
         Bukkit.getPluginManager().callEvent(guiceInitializeEvent)
         val injector = Guice.createInjector(EntityPluginModule(this, guiceInitializeEvent.factoryInformationList))
 
-        val entityRenderer = injector.getInstance(EntityRenderer::class.java)
+        val entityRenderer = injector.getInstance(DefaultEntityRenderer::class.java)
 
         Bukkit.getScheduler().runTaskTimer(this, Runnable {
             entityRenderer?.render()
