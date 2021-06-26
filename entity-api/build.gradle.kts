@@ -19,4 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+plugins {
+    id("maven-publish")
+}
 
+apply(plugin = "maven-publish")
+publishing {
+    repositories {
+        maven{
+            name = "GitHubPackages"
+            setUrl("https://maven.pkg.github.com/FllipEis/entity-api")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+
+    publications {
+        register("mavenJava", MavenPublication::class) {
+            from(components["java"])
+        }
+    }
+}
