@@ -24,6 +24,7 @@ plugins {
     java
     kotlin("jvm") version "1.4.32"
     kotlin("kapt") version "1.4.32"
+    id("maven-publish")
 }
 
 allprojects {
@@ -58,5 +59,24 @@ subprojects {
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
+    }
+}
+
+publishing {
+     repositories {
+         maven{
+             name = "GitHubPackages"
+             setUrl("https://maven.pkg.github.com/Fllip/entity-api")
+             credentials {
+                 username = System.getenv("GITHUB_ACTOR")
+                 password = System.getenv("GITHUB_TOKEN")
+             }
+         }
+     }
+
+    publications {
+        register("mavenJava", MavenPublication::class) {
+            from(components["java"])
+        }
     }
 }
