@@ -66,7 +66,7 @@ publishing {
      repositories {
          maven{
              name = "GitHubPackages"
-             setUrl("https://maven.pkg.github.com/Fllip/entity-api")
+             setUrl("https://maven.pkg.github.com/FllipEis/entity-api")
              credentials {
                  username = System.getenv("GITHUB_ACTOR")
                  password = System.getenv("GITHUB_TOKEN")
