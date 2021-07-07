@@ -59,7 +59,7 @@ class MetadataPacketCreator : AbstractEntityPacketCreator() {
         return createPacket(PacketType.Play.Server.ENTITY_METADATA, entity.getEntityId()).apply {
             modifier.writeDefaults()
 
-            val dataWatcher = WrappedDataWatcher(watchableCollectionModifier.read(0))
+            val dataWatcher = WrappedDataWatcher()
 
             val nameValue =
                 WrappedDataWatcher.WrappedDataWatcherObject(
